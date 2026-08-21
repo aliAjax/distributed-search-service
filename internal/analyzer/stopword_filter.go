@@ -1,8 +1,7 @@
 package analyzer
 
 func RemoveStopwords(in []string, keep func(string) bool) []string {
-	capacity := cap(in)
-	out := in[:0:capacity]
+	out := make([]string, 0, len(in))
 	return appendKeptRemoveStopwords(out, in, keep)
 }
 func appendKeptRemoveStopwords(out, in []string, keep func(string) bool) []string {

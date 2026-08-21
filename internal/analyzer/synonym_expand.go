@@ -1,8 +1,7 @@
 package analyzer
 
 func ExpandSynonyms(in []string, keep func(string) bool) []string {
-	capacity := cap(in)
-	out := in[:0:capacity]
+	out := make([]string, 0, len(in))
 	return appendKeptExpandSynonyms(out, in, keep)
 }
 func appendKeptExpandSynonyms(out, in []string, keep func(string) bool) []string {

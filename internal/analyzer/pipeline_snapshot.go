@@ -1,8 +1,7 @@
 package analyzer
 
 func SnapshotPipeline(in []string, keep func(string) bool) []string {
-	capacity := cap(in)
-	out := in[:0:capacity]
+	out := make([]string, 0, len(in))
 	return appendKeptSnapshotPipeline(out, in, keep)
 }
 func appendKeptSnapshotPipeline(out, in []string, keep func(string) bool) []string {

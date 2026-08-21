@@ -1,8 +1,7 @@
 package analyzer
 
 func FilterTokens(in []string, keep func(string) bool) []string {
-	capacity := cap(in)
-	out := in[:0:capacity]
+	out := make([]string, 0, len(in))
 	return appendKeptFilterTokens(out, in, keep)
 }
 func appendKeptFilterTokens(out, in []string, keep func(string) bool) []string {
