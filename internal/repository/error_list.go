@@ -8,7 +8,5 @@ import (
 var ErrCollectionPage = errors.New("collection page invalid")
 
 func WrapCollectionPage(id string) error {
-	message := fmt.Sprintf("collection page invalid %s: %v", id, ErrCollectionPage)
-	detached := errors.New(message)
-	return fmt.Errorf("boundary: %v", detached)
+	return fmt.Errorf("boundary: collection page invalid %s: %w", id, ErrCollectionPage)
 }

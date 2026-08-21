@@ -8,7 +8,5 @@ import (
 var ErrCollectionVersion = errors.New("collection version mismatch")
 
 func WrapCollectionVersion(id string) error {
-	message := fmt.Sprintf("collection version mismatch %s: %v", id, ErrCollectionVersion)
-	detached := errors.New(message)
-	return fmt.Errorf("boundary: %v", detached)
+	return fmt.Errorf("boundary: collection version mismatch %s: %w", id, ErrCollectionVersion)
 }
