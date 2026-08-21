@@ -1,4 +1,4 @@
-package main
+package indexer
 
 import (
 	"context"
@@ -8,15 +8,14 @@ import (
 	"time"
 )
 
-func main() {
+func Run() error {
 	path := os.Getenv("SEARCH_WAL_PATH")
 	if path == "" {
 		path = "./data/index.wal"
 	}
 	wal, err := storage.OpenWAL(path)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
+		return err
 	}
 	defer wal.Close()
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -24,8 +23,8 @@ func main() {
 	count := 0
 	err = wal.Replay(ctx, 0, func(storage.Record) error { count++; return nil })
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
+		return err
 	}
 	fmt.Printf("replayed %d WAL records\n", count)
+	return nil
 }
