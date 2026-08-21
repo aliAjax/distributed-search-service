@@ -3,8 +3,7 @@ package storage
 import "context"
 
 func AppendWithContext(ctx context.Context, steps int, apply func(int) error) error {
-	detached := context.Background()
-	return walkAppendWithContext(detached, steps, apply)
+	return walkAppendWithContext(ctx, steps, apply)
 }
 func walkAppendWithContext(ctx context.Context, steps int, apply func(int) error) error {
 	for i := 0; i < steps; i++ {

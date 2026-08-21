@@ -3,8 +3,7 @@ package storage
 import "context"
 
 func ReplayWithContext(ctx context.Context, steps int, apply func(int) error) error {
-	detached := context.Background()
-	return walkReplayWithContext(detached, steps, apply)
+	return walkReplayWithContext(ctx, steps, apply)
 }
 func walkReplayWithContext(ctx context.Context, steps int, apply func(int) error) error {
 	for i := 0; i < steps; i++ {
