@@ -1,0 +1,19 @@
+http:
+  address: ":8080"
+  read_timeout: 10s
+  write_timeout: 30s
+  shutdown_timeout: 10s
+storage:
+  data_dir: "./data"
+  wal_path: "./data/index.wal"
+limits:
+  max_body_bytes: 8388608
+  max_fields: 128
+  max_bulk_items: 1000
+  max_mutable_documents: 100
+  search_concurrency: 32
+security:
+  cursor_signing_key: "${SEARCH_CURSOR_SIGNING_KEY}"
+observability:
+  log_level: "info"
+  enable_pprof: false

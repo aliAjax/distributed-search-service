@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Search Operations Console</title>
+  <style>
+    :root { color-scheme: light; font: 16px/1.5 system-ui, sans-serif; background: #f4f6f8; color: #1f2933; }
+    body { margin: 0; }
+    header { background: #17324d; color: white; padding: 1rem 5vw; }
+    main { max-width: 960px; margin: 2rem auto; padding: 0 1rem; }
+    form, section { background: white; border: 1px solid #d8dee5; border-radius: 6px; padding: 1rem; margin-bottom: 1rem; }
+    label { display: block; margin-top: .75rem; font-weight: 600; }
+    input, textarea, button { font: inherit; padding: .55rem; margin-top: .25rem; }
+    input, textarea { width: 100%; box-sizing: border-box; border: 1px solid #aab4bf; border-radius: 4px; }
+    button { background: #0b6e99; color: white; border: 0; border-radius: 4px; cursor: pointer; }
+    pre { white-space: pre-wrap; background: #101820; color: #d8f3dc; padding: 1rem; border-radius: 4px; min-height: 10rem; }
+  </style>
+</head>
+<body>
+  <header><strong>Search Operations Console</strong></header>
+  <main>
+    <form id="query-form">
+      <label for="tenant">Tenant</label><input id="tenant" value="demo">
+      <label for="collection">Collection</label><input id="collection" value="catalog">
+      <label for="query">Query</label><textarea id="query" rows="3">engineer</textarea>
+      <button type="submit">Run search</button>
+    </form>
+    <section><h2>Response</h2><pre id="output">No request yet.</pre></section>
+  </main>
+  <script>
+    document.getElementById('query-form').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const output = document.getElementById('output');
+      try {
+        const response = await fetch('/api/v1/search', { method: 'POST', headers: {'Content-Type': 'application/json', 'X-Tenant-ID': document.getElementById('tenant').value}, body: JSON.stringify({collection_id: document.getElementById('collection').value, query: document.getElementById('query').value}) });
+        output.textContent = JSON.stringify(await response.json(), null, 2);
+      } catch (error) { output.textContent = String(error); }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+openapi: 3.1.0
+info: {title: Distributed Search Service, version: 1.0.0}
+servers: [{url: http://localhost:8080}]
+paths:
+  /api/v1/search:
+    post:
+      parameters: [{name: X-Tenant-ID, in: header, required: true, schema: {type: string}}]
+      requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/SearchRequest'}}}}
+      responses: {'200': {description: Search results}, '422': {description: Invalid query}}
+  /api/v1/collections:
+    post: {responses: {'201': {description: Collection created}}}
+components:
+  schemas:
+    SearchRequest: {type: object, required: [collection_id, query], properties: {collection_id: {type: string}, query: {type: object}, size: {type: integer, maximum: 1000}}}

@@ -1,0 +1,7 @@
+{
+  "mode": "service",
+  "start": "go run ./cmd/searchd",
+  "ready_url": "http://127.0.0.1:8080/health/ready",
+  "startup_timeout_seconds": 8,
+  "shutdown_timeout_seconds": 3
+}

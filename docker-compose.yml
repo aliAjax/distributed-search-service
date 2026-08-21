@@ -1,0 +1,17 @@
+services:
+  searchd:
+    build: .
+    ports: ["8080:8080"]
+    environment:
+      SEARCH_CURSOR_SIGNING_KEY: "local-compose-secret-change-me"
+      SEARCH_DATA_DIR: "/var/lib/search"
+      SEARCH_WAL_PATH: "/var/lib/search/index.wal"
+    volumes:
+      - search-data:/var/lib/search
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/health/ready"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+volumes:
+  search-data:

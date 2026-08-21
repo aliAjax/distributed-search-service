@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: distributed-search}
+spec:
+  replicas: 2
+  selector: {matchLabels: {app: distributed-search}}
+  template:
+    metadata: {labels: {app: distributed-search}}
+    spec:
+      containers:
+        - name: searchd
+          image: distributed-search:local
+          ports: [{containerPort: 8080}]
+          env:
+            - {name: SEARCH_CURSOR_SIGNING_KEY, valueFrom: {secretKeyRef: {name: searchd-secrets, key: cursor-signing-key}}}
+          readinessProbe: {httpGet: {path: /health/ready, port: 8080}, initialDelaySeconds: 3}
+          livenessProbe: {httpGet: {path: /health/live, port: 8080}, initialDelaySeconds: 5}
+          resources: {requests: {cpu: 250m, memory: 512Mi}, limits: {cpu: "2", memory: 2Gi}}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: distributed-search}
+spec: {selector: {app: distributed-search}, ports: [{port: 8080, targetPort: 8080}]}

@@ -1,0 +1,15 @@
+syntax = "proto3";
+package search.v1;
+option go_package = "example.com/distributed-search-service/api/proto/searchv1";
+service Search { rpc Query(QueryRequest) returns (QueryResponse); }
+service Indexer { rpc Bulk(BulkRequest) returns (BulkResponse); }
+service Snapshot { rpc Create(SnapshotRequest) returns (SnapshotResponse); }
+service Maintenance { rpc Compact(CompactRequest) returns (TaskResponse); }
+message QueryRequest { string tenant_id = 1; string collection_id = 2; bytes query_json = 3; }
+message QueryResponse { bytes result_json = 1; }
+message BulkRequest { string tenant_id = 1; string collection_id = 2; bytes items_json = 3; }
+message BulkResponse { bytes result_json = 1; }
+message SnapshotRequest { string tenant_id = 1; string collection_id = 2; }
+message SnapshotResponse { string snapshot_id = 1; }
+message CompactRequest { string tenant_id = 1; string collection_id = 2; }
+message TaskResponse { string task_id = 1; }
